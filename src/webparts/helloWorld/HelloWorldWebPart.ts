@@ -1,4 +1,5 @@
 require('reflect-metadata');
+require('zone.js');
 
 import {
   BaseClientSideWebPart,
