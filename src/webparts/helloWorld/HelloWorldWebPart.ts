@@ -16,9 +16,25 @@ import {bootstrap}    from 'angular2/platform/browser';
 
 @Component({
     selector: 'my-app',
-    template: '<h1>Heureka, I got this working!</h1>'
+    template: '<h1>Heureka, {{message}} I got this working! <button (click)="addTodo()">Click</button></h1> {{todos.length}} <ul> <li *ngFor="#todo of todos">{{ todo }}</li></ul>'
 })
-export class AppComponent { }
+export class AppComponent {
+  public todos: string[];
+  public message: string;
+
+  constructor() {
+    this.todos = ['task1', 'task 2'];
+    this.message = "Good morning!";
+  }
+
+  public addTodo(): void {
+    console.log('in addTodo');
+    this.todos.push('feature 1');
+    console.log(this.todos);
+    this.message = "Good night.";
+  };
+
+}
 
 export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorldWebPartProps> {
 
