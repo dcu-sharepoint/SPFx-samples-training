@@ -17,7 +17,7 @@ import {bootstrap}    from 'angular2/platform/browser';
 
 @Component({
     selector: 'my-app',
-    template: '<h1>Heureka, {{message}} I got this working! <button (click)="addTodo()">Click</button></h1> {{todos.length}} <ul> <li *ngFor="#todo of todos">{{ todo }}</li></ul>'
+    template: '<h1>Heureka, {{message}} I got this working! <button (click)="addTodo()">Click</button></h1> {{todos.length}} <ul> <li *ngFor="let todo of todos">{{ todo }}</li></ul>'
 })
 export class AppComponent {
   public todos: string[];
