@@ -43,7 +43,7 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
       // Now we must define a constructable object that will be our Component.
       // We wrap the constructable object in parenthesis to explicitly tell the parser to
       // expect an expression and not a declaration.
-      // ***But more importantly, we wrap with parenthesis so that we can the IIFE
+      // ***But more importantly, we wrap with parenthesis so that the IIFE
       // object model that is transpiled from the class declaration is
       // lexically scoped in this WebPart instance.
       (
