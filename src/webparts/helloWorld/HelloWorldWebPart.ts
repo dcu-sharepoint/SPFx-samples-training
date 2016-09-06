@@ -14,7 +14,7 @@ import styles from './HelloWorld.module.scss';
 import * as strings from 'mystrings';
 import { IHelloWorldWebPartProps } from './IHelloWorldWebPartProps';
 
-import {Component, ComponentResolver, Directive, Injectable, NgZone, ViewContainerRef} from 'angular2/core';
+import {Component, ComponentResolver, NgZone, ViewContainerRef} from 'angular2/core';
 import {bootstrap}    from 'angular2/platform/browser';
 
 export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorldWebPartProps> {
@@ -29,7 +29,6 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
       this._component.description = this.properties.description;
       this._bindingSet = true;
     }
-
     this.properties.description = this._component.description;
     this._app.changeDetectorRef.detectChanges();
     return null;
@@ -38,6 +37,7 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
   public onPropertyChange(propertyPath: string, newValue: any): void {
     // Update value
     if (propertyPath === "description") {
+      console.log('prop change');
       this._component.description = newValue;
     }
   }
