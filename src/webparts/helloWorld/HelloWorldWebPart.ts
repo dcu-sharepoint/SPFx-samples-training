@@ -24,13 +24,7 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
 
 
   public onBeforeSerialize(): IHtmlProperties {
-    if ( !this._bindingSet ) {
-      // Define all Controller scope variables here
-      this._component.description = this.properties.description;
-      this._bindingSet = true;
-    }
-    this.properties.description = this._component.description;
-    this._app.changeDetectorRef.detectChanges();
+    this.properties.todos = this._component.todos;
     return null;
   }
 
@@ -40,10 +34,31 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
       console.log('prop change');
       this._component.description = newValue;
     }
+    this._app.changeDetectorRef.detectChanges();
   }
 
   public constructor(context: IWebPartContext) {
     super(context);
+  }
+
+ public render(): void {
+   console.log('Rendering: ' + (new Date()).valueOf());
+   if (this.renderedOnce) {
+      return;
+    }
+
+    this.domElement.innerHTML = `
+      <div class="Ng2">
+          <h1>Angular 2-${this.context.instanceId}</h2>
+          <my-app-${this.context.instanceId}/>
+      </div>
+      `;
+
+    this._bootStrapComponent();
+ }
+
+ private _bootStrapComponent(): void {
+   console.log('Starting bootstrap: ' + (new Date()).valueOf());
     bootstrap(
       // The bootstrap function accepts any contructable object as a parameter.
 
@@ -78,10 +93,11 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
         public description: string;
 
         constructor(private vcRef: ViewContainerRef, private resolver: ComponentResolver, private zone: NgZone) {
-          this.todos = ['task1', 'task 2'];
+          this.todos  = [];
           this.zone;
           console.log('annotations');
           console.log(Reflect.getMetadata('annotations', AppComponent));
+          console.log('AppComponent constructor: ' + (new Date()).valueOf());
           // console.log('design:paramtypes');
           // console.log(Reflect.getMetadata('design:paramtypes', AppComponent));
           // console.log('propMetadata');
@@ -91,35 +107,32 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
         }
 
         public addTodo(): void {
+          console.log(this.todos);
           this.todos.push('feature 1');
         };
 
         }
       )
     ).then(app => {
-        console.log('Bootstrap Successful');
+       console.log('Bootstrapping complete: ' + (new Date()).valueOf());
         //console.log(app);
         this._component = app['_hostElement']['component'];
         this._app = app;
+        this._updateChanges();
       }, err => {
         console.error(err);
       }
     );
-  }
-
- public render(): void {
-   if (this.renderedOnce) {
-      return;
-    }
-
-    this.domElement.innerHTML = `
-      <div class="Ng2">
-          <h1>Angular 2-${this.context.instanceId}</h2>
-          <my-app-${this.context.instanceId}/>
-      </div>
-      `;
-
  }
+
+ private _updateChanges() {
+      this._component.description = this.properties.description;
+      console.log(this.properties);
+      this._component.todos = this.properties.todos;
+      this._app.changeDetectorRef.detectChanges();
+      this._bindingSet = true;
+ }
+
   protected get propertyPaneSettings(): IPropertyPaneSettings {
     return {
       pages: [
