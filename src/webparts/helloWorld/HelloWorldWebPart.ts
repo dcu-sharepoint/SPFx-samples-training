@@ -6,17 +6,41 @@ import {
   BaseClientSideWebPart,
   IPropertyPaneSettings,
   IWebPartContext,
-  PropertyPaneTextField
+  PropertyPaneTextField,
+  IHtmlProperties
 } from '@microsoft/sp-client-preview';
 
 import styles from './HelloWorld.module.scss';
 import * as strings from 'mystrings';
 import { IHelloWorldWebPartProps } from './IHelloWorldWebPartProps';
 
-import {Component, Directive, ViewContainerRef, ComponentResolver} from 'angular2/core';
+import {Component, ComponentResolver, Directive, Injectable, NgZone, ViewContainerRef} from 'angular2/core';
 import {bootstrap}    from 'angular2/platform/browser';
 
 export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorldWebPartProps> {
+  private _app: any;
+  private _component: any;
+  private _bindingSet: boolean;
+
+
+  public onBeforeSerialize(): IHtmlProperties {
+    if ( !this._bindingSet ) {
+      // Define all Controller scope variables here
+      this._component.description = this.properties.description;
+      this._bindingSet = true;
+    }
+
+    this.properties.description = this._component.description;
+    this._app.changeDetectorRef.detectChanges();
+    return null;
+  }
+
+  public onPropertyChange(propertyPath: string, newValue: any): void {
+    // Update value
+    if (propertyPath === "description") {
+      this._component.description = newValue;
+    }
+  }
 
   public constructor(context: IWebPartContext) {
     super(context);
@@ -24,13 +48,13 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
       // The bootstrap function accepts any contructable object as a parameter.
 
       // First we must decorate the constructable object (which will serve as our Component)
-      // with metadata that tells Angular2 which CSS Selector to look for in the HTML, and how to render
-      // the Component's view inside the CSS Selector's element.
+      // with metadata that tells Angular2 which CSS Selector to look for in the HTML and then bootstraps that element,
+      // and how to render the Component's view inside the CSS Selector's element.
       Component(
         {
           selector: 'my-app-' + this.context.instanceId,
           template:
-            `<p>Dynamic Component {{message}}</p>
+            `<p>{{description}}</p>
             <button (click)="addTodo()">Click</button>
             <ul>
               <li *ngFor="let todo of todos">
@@ -40,7 +64,7 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
             `
         }
       )
-      // Now we must define a constructable object that will be our Component.
+      // Now we must define the constructable object that will be our Component.
       // We wrap the constructable object in parenthesis to explicitly tell the parser to
       // expect an expression and not a declaration.
       // ***But more importantly, we wrap with parenthesis so that the IIFE
@@ -51,11 +75,11 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
         class AppComponent {
 
         public todos: string[];
-        public message: string;
+        public description: string;
 
-        constructor(private vcRef: ViewContainerRef, private resolver: ComponentResolver) {
+        constructor(private vcRef: ViewContainerRef, private resolver: ComponentResolver, private zone: NgZone) {
           this.todos = ['task1', 'task 2'];
-          this.message = "Good morning!";
+          this.zone;
           console.log('annotations');
           console.log(Reflect.getMetadata('annotations', AppComponent));
           // console.log('design:paramtypes');
@@ -67,16 +91,16 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
         }
 
         public addTodo(): void {
-          console.log('in addTodo');
           this.todos.push('feature 1');
-          console.log(this.todos);
         };
+
         }
       )
     ).then(app => {
-        console.log(app['_hostElement'].nativeElement);
         console.log('Bootstrap Successful');
-        console.log(app);
+        //console.log(app);
+        this._component = app['_hostElement']['component'];
+        this._app = app;
       }, err => {
         console.error(err);
       }
@@ -84,6 +108,10 @@ export default class HelloWorldWebPart extends BaseClientSideWebPart<IHelloWorld
   }
 
  public render(): void {
+   if (this.renderedOnce) {
+      return;
+    }
+
     this.domElement.innerHTML = `
       <div class="Ng2">
           <h1>Angular 2-${this.context.instanceId}</h2>
