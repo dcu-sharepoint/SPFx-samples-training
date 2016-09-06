@@ -3,7 +3,7 @@
 
 import "reflect-metadata";
 require('zone.js');
-import TodoAngular2Component from './TodoAngular2Component';
+import TodoAngular2Component from '../TodoAngular2Component';
 import {
   BaseClientSideWebPart,
   IWebPartContext,
@@ -16,7 +16,7 @@ export default class BaseAngular2WebPart<TProperties> extends BaseClientSideWebP
   private _app: any;
   private _component: any;
 
-  protected get component(): any {
+  protected get angular2Component(): any {
     return this._component;
   }
 
@@ -31,12 +31,7 @@ export default class BaseAngular2WebPart<TProperties> extends BaseClientSideWebP
       return;
     }*/
 
-    this.domElement.innerHTML = `
-      <div class="Ng2">
-          <h1>Angular 2-${this.context.instanceId}</h2>
-          <my-app-${this.context.instanceId}/>
-      </div>
-      `;
+    this.domElement.innerHTML = `<ng2-webpart-${this.context.instanceId} />`;
 
     this._bootStrapComponent();
  }

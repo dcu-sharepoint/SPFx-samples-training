@@ -1,5 +1,5 @@
 // require('reflect-metadata');
-import BaseAngular2WebPart from './BaseAngular2WebPart';
+import BaseAngular2WebPart from './core/BaseAngular2WebPart';
 
 import {
   IPropertyPaneSettings,
@@ -14,7 +14,7 @@ import { IHelloWorldWebPartProps } from './IHelloWorldWebPartProps';
 export default class HelloWorldWebPart extends BaseAngular2WebPart<IHelloWorldWebPartProps> {
 
   public onBeforeSerialize(): IHtmlProperties {
-    this.properties.todos = this.component.todos;
+    this.properties.todos = this.angular2Component.todos;
     return null;
   }
 
@@ -22,16 +22,16 @@ export default class HelloWorldWebPart extends BaseAngular2WebPart<IHelloWorldWe
     // Update value
     if (propertyPath === "description") {
       console.log('prop change');
-      this.component.description = newValue;
+      this.angular2Component.description = newValue;
     }
 
     super.onPropertyChange(propertyPath, newValue);
   }
 
  protected updateChanges(): void {
-      this.component.description = this.properties.description;
+      this.angular2Component.description = this.properties.description;
       console.log(this.properties);
-      this.component.todos = this.properties.todos;
+      this.angular2Component.todos = this.properties.todos;
  }
 
   protected get propertyPaneSettings(): IPropertyPaneSettings {
