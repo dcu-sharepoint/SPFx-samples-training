@@ -3,14 +3,22 @@
 
 import "reflect-metadata";
 require('zone.js');
-import TodoAngular2Component from '../TodoAngular2Component';
+import TodoComponent from '../TodoComponent';
+import ListComponent from '../ListComponent';
 import {
   BaseClientSideWebPart,
   IWebPartContext,
 } from '@microsoft/sp-client-preview';
 
 import {Component, ComponentResolver, NgZone, ViewContainerRef} from 'angular2/core';
+// import {NgModule, ApplicationRef} from '@angular/core';
+// import {CommonModule} from '@angular/common';
+// import { BrowserModule } from '@angular/platform-browser';
 import {bootstrap}    from 'angular2/platform/browser';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { AppModule } from '../AppModule';
+// import {platformBrowserDynamic} from '@angular/browser-platform-dynamic';
+
 
 export default class BaseAngular2WebPart<TProperties> extends BaseClientSideWebPart<TProperties> {
   private _app: any;
@@ -26,32 +34,36 @@ export default class BaseAngular2WebPart<TProperties> extends BaseClientSideWebP
   }
 
  public render(): void {
-   console.log('Rendering: ' + (new Date()).valueOf());
-   /*if (this.renderedOnce) {
-      return;
-    }*/
-
+    // @todo: most likely we need to make this width:100%
     this.domElement.innerHTML = `<ng2-webpart-${this.context.instanceId} />`;
-
     this._bootStrapComponent();
+    // NgModule({
+    //   declarations: [TodoComponent, ListComponent],
+    //   entryComponents: [TodoComponent]
+    // })
+    // class AppModule {
+    //   constructor(appRef: ApplicationRef) {
+    //     appRef.bootstrap(TodoComponent);
+    //   }
+    // }
  }
 
  private _bootStrapComponent(): void {
-    console.log('Starting bootstrap: ' + (new Date()).valueOf());
-    bootstrap(
-      // The bootstrap function accepts any contructable object as a parameter.
-      TodoAngular2Component.getAngular2Component(this.context.instanceId)
-    ).then(app => {
-       console.log('Bootstrapping complete: ' + (new Date()).valueOf());
-        //console.log(app);
-        this._component = app['_hostElement']['component'];
-        this._app = app;
-        this.updateChanges();
-      this._app.changeDetectorRef.detectChanges();
-      }, err => {
-        console.error(err);
-      }
-    );
+    // bootstrap(
+    //   // The bootstrap function accepts any contructable object as a parameter.
+    //   TodoComponent.getAngular2Component(this.context.instanceId)
+    // ).then(app => {
+    //    console.log('Bootstrapping complete: ' + (new Date()).valueOf());
+    //     this._component = app['_hostElement']['component'];
+    //     this._app = app;
+    //     this.updateChanges();
+    //   this._app.changeDetectorRef.detectChanges();
+    //   }, err => {
+    //     console.error(err);
+    //   }
+    // );
+    console.log("bootstraping module");
+    platformBrowserDynamic().bootstrapModule(AppModule);
  }
 
  protected updateChanges(): void {
