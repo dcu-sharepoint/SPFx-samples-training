@@ -6,7 +6,7 @@ import ListComponent   from './ListComponent';
 
 @NgModule({
   imports: [ BrowserModule ],
-  declarations: [ TodoComponent ],
+  declarations: [ TodoComponent, ListComponent ],
   bootstrap:    [ TodoComponent ]
 })
 export class AppModule {

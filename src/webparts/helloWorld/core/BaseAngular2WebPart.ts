@@ -14,7 +14,7 @@ import {Component, ComponentResolver, NgZone, ViewContainerRef} from 'angular2/c
 // import {NgModule, ApplicationRef} from '@angular/core';
 // import {CommonModule} from '@angular/common';
 // import { BrowserModule } from '@angular/platform-browser';
-import {bootstrap}    from 'angular2/platform/browser';
+import { bootstrap }    from 'angular2/platform/browser';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from '../AppModule';
 // import {platformBrowserDynamic} from '@angular/browser-platform-dynamic';
@@ -35,7 +35,7 @@ export default class BaseAngular2WebPart<TProperties> extends BaseClientSideWebP
 
  public render(): void {
     // @todo: most likely we need to make this width:100%
-    this.domElement.innerHTML = `<ng2-webpart-${this.context.instanceId} />`;
+    this.domElement.innerHTML = `<ng2-webpart />`;
     this._bootStrapComponent();
     // NgModule({
     //   declarations: [TodoComponent, ListComponent],
@@ -63,7 +63,14 @@ export default class BaseAngular2WebPart<TProperties> extends BaseClientSideWebP
     //   }
     // );
     console.log("bootstraping module");
-    platformBrowserDynamic().bootstrapModule(AppModule);
+    platformBrowserDynamic().bootstrapModule(AppModule).then(
+      ngModuleRef => {
+        console.log(ngModuleRef);
+        this._component = ngModuleRef['_ApplicationRef__9']['_rootComponents'][0]['_hostElement']['component'];
+      }, err => {
+        console.log(err);
+      }
+    );
  }
 
  protected updateChanges(): void {
