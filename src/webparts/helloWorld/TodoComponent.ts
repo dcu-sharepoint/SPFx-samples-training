@@ -4,7 +4,7 @@ import ListComponent from './ListComponent';
 
 @Component({
       selector: `ng2-webpart`,
-      template: `<p>Hello</p> <list-component> </list-component>`
+      template: `<p>Hello</p> <list-component [(ngModel)]="todos"> </list-component>`
       //`<p>Hello</p> <list-component [todos]="todos"></list-component>`
 })
 export default class TodoComponent {

@@ -16,7 +16,7 @@ export default class ListComponent {
   // @Input()
   // private todos: string[];
 
-  constructor(todos: string[]) {
+  constructor() {
     console.log('in here');
    // this.todos = todos;
   }
