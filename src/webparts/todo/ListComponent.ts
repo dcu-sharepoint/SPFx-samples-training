@@ -5,7 +5,7 @@ import {Component, Input} from '@angular/core';
 @Component({
       selector: `list-component`,
       template:
-      `<button (click)="addTodo()">Click</button>
+      `<button (click)="addTodo()">Add Todo</button>
         <ul>
           <li *ngFor="let todo of todos">
             {{ todo }}

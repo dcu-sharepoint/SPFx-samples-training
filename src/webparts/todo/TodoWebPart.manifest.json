@@ -9,11 +9,11 @@
   "preconfiguredEntries": [{
     "groupId": "244f3542-af19-46e1-bd15-d6b9a35b9960",
     "group": { "default": "Under Development" },
-    "title": { "default": "HelloWorld" },
-    "description": { "default": "HelloWorld description" },
+    "title": { "default": "Todo" },
+    "description": { "default": "Todo description" },
     "officeFabricIconFontName": "Page",
     "properties": {
-      "description": "HelloWorld",
+      "description": "My Todo's",
       "todos": []
     }
   }]

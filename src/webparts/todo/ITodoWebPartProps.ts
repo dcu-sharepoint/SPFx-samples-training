@@ -1,10 +1,10 @@
 /**
  * @Copyright (c) Microsoft Corporation.  All rights reserved.
  *
- * Hello world web part props.
+ * Todo web part props.
  */
 
-export interface IHelloWorldWebPartProps {
+export interface ITodoWebPartProps {
   description: string;
   todos: string[];
 }

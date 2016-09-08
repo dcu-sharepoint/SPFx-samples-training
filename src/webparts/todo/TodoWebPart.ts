@@ -13,9 +13,9 @@ import {
 } from '@microsoft/sp-client-preview';
 
 import * as strings from 'mystrings';
-import { IHelloWorldWebPartProps } from './IHelloWorldWebPartProps';
+import { ITodoWebPartProps } from './ITodoWebPartProps';
 
-export default class HelloWorldWebPart extends BaseAngular2WebPart<IHelloWorldWebPartProps> {
+export default class TodoWebPart extends BaseAngular2WebPart<ITodoWebPartProps> {
 
   protected get RootComponentType(): any {
     return TodoComponent;

@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 
-describe('HelloWorldWebPart', () => {
+describe('TodoWebPart', () => {
   it('should do something', () => {
     assert.ok(true);
   });
