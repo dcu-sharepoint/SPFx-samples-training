@@ -11,6 +11,10 @@ export default class TodoComponent {
     /**
      * Get the root component for the web part. Note, as per the current prototype
      * this component cannot use the declarative @Component directive.
+     *
+     * Putting parenthesis around the class definition allows us to create
+     * a unique class, rather then appending additional ComponentMetadata
+     * to the same root class.
      */
     public static getComponent(selectorId: string): any {
       return Component({

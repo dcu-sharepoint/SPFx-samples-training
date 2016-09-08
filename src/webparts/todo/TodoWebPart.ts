@@ -6,6 +6,7 @@
 
 import BaseAngular2WebPart from './core/BaseAngular2WebPart';
 import TodoComponent from './TodoComponent';
+import ListComponent from './ListComponent';
 import {
   IPropertyPaneSettings,
   PropertyPaneTextField,
@@ -16,6 +17,14 @@ import * as strings from 'mystrings';
 import { ITodoWebPartProps } from './ITodoWebPartProps';
 
 export default class TodoWebPart extends BaseAngular2WebPart<ITodoWebPartProps> {
+
+
+  /*
+  * Include all subcomponent classes in this array.
+  */
+  public get AppDeclarationTypes(): any {
+    return [ListComponent];
+  }
 
   protected get RootComponentType(): any {
     return TodoComponent;
@@ -38,7 +47,6 @@ export default class TodoWebPart extends BaseAngular2WebPart<ITodoWebPartProps> 
 
   protected updateChanges(): void {
     this.RootComponent.description = this.properties.description;
-    console.log(this.properties);
     this.RootComponent.todos = this.properties.todos;
   }
 

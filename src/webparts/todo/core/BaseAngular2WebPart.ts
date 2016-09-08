@@ -6,7 +6,7 @@
 
 import "reflect-metadata";
 require('zone.js');
-import ListComponent from '../ListComponent';
+
 import {
   BaseClientSideWebPart
 } from '@microsoft/sp-client-preview';
@@ -36,6 +36,13 @@ export default class BaseAngular2WebPart<TProperties>
    */
   protected get RootComponent(): any {
     return this._component;
+  }
+
+  /**
+   * Array of class references for the NgModule declarations.
+   */
+  protected get AppDeclarationTypes(): any {
+    throw new Error("This API needs to be overridden in the web part class");
   }
 
   /**
@@ -92,7 +99,7 @@ export default class BaseAngular2WebPart<TProperties>
 
   return NgModule({
     imports: [ BrowserModule ],
-    declarations: [ component, ListComponent ],
+    declarations: this.AppDeclarationTypes.concat(component),
     bootstrap:    [ component ]
   })(
     class AppModule {}
