@@ -1,7 +1,5 @@
 import {Component, Input} from '@angular/core';
 
-
-// This class gets transpiled to a JavaScript IIFE containing an object model
 @Component({
       selector: `list-component`,
       template:
@@ -18,7 +16,6 @@ export default class ListComponent {
 
   constructor() {
     console.log('*** ListComponent constructor ***');
-   // this.todos = todos;
   }
 
   public addTodo(): void {

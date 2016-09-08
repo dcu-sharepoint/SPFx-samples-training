@@ -1,7 +1,7 @@
 /**
  * @Copyright (c) Microsoft Corporation.  All rights reserved.
  *
- * Hello world web part.
+ * Todo web part.
  */
 
 import BaseAngular2WebPart from './core/BaseAngular2WebPart';
