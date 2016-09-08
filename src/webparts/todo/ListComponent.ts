@@ -19,6 +19,6 @@ export default class ListComponent {
   }
 
   public addTodo(): void {
-   this.todos.push('feature 1');
+   this.todos.push(`todo ${this.todos.length + 1}`);
   };
 }

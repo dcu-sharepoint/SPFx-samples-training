@@ -18,16 +18,15 @@ import { ITodoWebPartProps } from './ITodoWebPartProps';
 
 export default class TodoWebPart extends BaseAngular2WebPart<ITodoWebPartProps> {
 
+  protected get RootComponentType(): any {
+    return TodoComponent;
+  }
 
   /*
   * Include all subcomponent classes in this array.
   */
-  public get AppDeclarationTypes(): any {
+  protected get AppDeclarationTypes(): any {
     return [ListComponent];
-  }
-
-  protected get RootComponentType(): any {
-    return TodoComponent;
   }
 
   public onBeforeSerialize(): IHtmlProperties {
