@@ -14,7 +14,7 @@ import {Component, Input} from '@angular/core';
     })
 export default class ListComponent {
   @Input()
-  todos: string[];
+  private todos: string[];
 
   constructor() {
     console.log('*** ListComponent constructor ***');
