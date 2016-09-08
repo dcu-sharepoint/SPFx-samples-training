@@ -15,7 +15,7 @@ export default class TodoComponent {
     public static getComponent(selectorId: string): any {
       return Component({
             selector: `ng2-webpart-${selectorId}`,
-            template: `<p>Hello</p><button (click)="logTodos()">Log Todos</button> <list-component [todos]="todos"></list-component>`
+            template: `<h2>{{description}}</h2><button (click)="logTodos()">Log Todos</button> <list-component [todos]="todos"></list-component>`
       })(
         class TodoComponentTemp {
           public todos: string[] = [];
