@@ -61,13 +61,13 @@ export default class BaseAngular2WebPart<TProperties>
  public render(): void {
     // @todo: most likely we need to make this width:100%
     this.domElement.innerHTML = `<ng2-webpart-${this.context.instanceId} />`;
-    this._bootStrapComponent();
+    this._bootStrapModule();
  }
 
  /**
   * Bootstrap the root component of the web part.
   */
- private _bootStrapComponent(): void {
+ private _bootStrapModule(): void {
     platformBrowserDynamic().bootstrapModule(this._getModule()).then(
       ngModuleRef => {
 
