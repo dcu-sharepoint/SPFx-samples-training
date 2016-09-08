@@ -2,19 +2,24 @@ import {Component} from '@angular/core';
 /* tslint:disable */
 import ListComponent from './ListComponent';
 
-@Component({
-      selector: `ng2-webpart`,
-      template: `<p>Hello</p> <list-component [todos]="todos"> </list-component>`
-      //`<p>Hello</p> <list-component [todos]="todos"></list-component>`
-})
 export default class TodoComponent {
+    public static getComponent(selectorId: string): any {
+      return Component({
+            selector: `ng2-webpart-${selectorId}`,
+            template: `<p>Hello</p><button (click)="logTodos()">Log Todos</button> <list-component [todos]="todos"></list-component>`
+      })(
+        class TodoComponentTemp {
+          public todos: string[] = [];
+          public description: string;
 
+          constructor() {
+            console.log(Reflect.getMetadata('annotations', TodoComponent));
+          }
 
-    public todos: string[];
-    public description: string;
-
-    constructor() {
-      this.todos = [];
-      console.log(Reflect.getMetadata('annotations', TodoComponent));
+          logTodos(): void {
+            console.log(this.todos);
+          }
+        }
+      );
     }
 }
