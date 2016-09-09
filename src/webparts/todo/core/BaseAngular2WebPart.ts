@@ -34,21 +34,21 @@ export default class BaseAngular2WebPart<TProperties>
   /**
    * The root Angular2 component for this web part.
    */
-  protected get RootComponent(): any {
+  protected get rootComponent(): any {
     return this._component;
   }
 
   /**
    * Array of class references for the NgModule declarations.
    */
-  protected get AppDeclarationTypes(): any {
+  protected get appDeclarationTypes(): any {
     throw new Error("This API needs to be overridden in the web part class");
   }
 
   /**
    * Class reference of the root component.
    */
-  protected get RootComponentType(): any {
+  protected get rootComponentType(): any {
     throw new Error("This API needs to be overridden in the web part class");
   }
 
@@ -106,7 +106,7 @@ export default class BaseAngular2WebPart<TProperties>
    * Get the NgModule reference that will act as the root of this web part.
    */
   private _getModule(): any {
-    const component: any = this.RootComponentType.getComponent(this.context.instanceId);
+    const component: any = this.rootComponentType.getComponent(this.context.instanceId);
 
     // @question3: Is this a good way of bootstrapping the app and the root component
     // of the app? The reason we are having to do this is because, we found, that
@@ -115,7 +115,7 @@ export default class BaseAngular2WebPart<TProperties>
     // bootstrapping its own root app.
     return NgModule({
       imports: [BrowserModule],
-      declarations: this.AppDeclarationTypes.concat(component),
+      declarations: this.appDeclarationTypes.concat(component),
       bootstrap: [component]
     })(class Angular2WebPartRootApp { });
   }

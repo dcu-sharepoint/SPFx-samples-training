@@ -18,19 +18,19 @@ import { ITodoWebPartProps } from './ITodoWebPartProps';
 
 export default class TodoWebPart extends BaseAngular2WebPart<ITodoWebPartProps> {
 
-  protected get RootComponentType(): any {
+  protected get rootComponentType(): any {
     return TodoComponent;
   }
 
   /*
   * Include all subcomponent classes in this array.
   */
-  protected get AppDeclarationTypes(): any {
+  protected get appDeclarationTypes(): any {
     return [ListComponent];
   }
 
   public onBeforeSerialize(): IHtmlProperties {
-    this.properties.todos = this.RootComponent.todos;
+    this.properties.todos = this.rootComponent.todos;
     return undefined;
   }
 
@@ -38,15 +38,15 @@ export default class TodoWebPart extends BaseAngular2WebPart<ITodoWebPartProps> 
     // Update value
     if (propertyPath === "description") {
       console.log('prop change');
-      this.RootComponent.description = newValue;
+      this.rootComponent.description = newValue;
     }
 
     super.onPropertyChange(propertyPath, newValue);
   }
 
   protected updateChanges(): void {
-    this.RootComponent.description = this.properties.description;
-    this.RootComponent.todos = this.properties.todos;
+    this.rootComponent.description = this.properties.description;
+    this.rootComponent.todos = this.properties.todos;
   }
 
   protected get propertyPaneSettings(): IPropertyPaneSettings {
