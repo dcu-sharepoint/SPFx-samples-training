@@ -53,6 +53,13 @@ export default class BaseAngular2WebPart<TProperties>
   }
 
   /**
+   * Apply the changes to the component.
+   */
+  protected updateChanges(): void {
+    throw new Error('Need to to override this method');
+  }
+
+  /**
    * On property change.
    */
   public onPropertyChange(propertyPath: string, newValue: any): void {
@@ -61,52 +68,55 @@ export default class BaseAngular2WebPart<TProperties>
     this._app.tick();
   }
 
- /**
-  * Render the web part. This causes the Angular2 app to be bootstrapped which
-  * in turn bootsraps the Angular2 web part root component.
-  */
- public render(): void {
+  /**
+   * Render the web part. This causes the Angular2 app to be bootstrapped which
+   * in turn bootsraps the Angular2 web part root component.
+   */
+  public render(): void {
     // @todo: most likely we need to make this width:100%
     this.domElement.innerHTML = `<ng2-webpart-${this.context.instanceId} />`;
     this._bootStrapModule();
- }
+  }
 
- /**
-  * Bootstrap the root component of the web part.
-  */
- private _bootStrapModule(): void {
+  /**
+   * Bootstrap the root component of the web part.
+   */
+  private _bootStrapModule(): void {
     platformBrowserDynamic().bootstrapModule(this._getModule()).then(
       ngModuleRef => {
 
-        // @todo: !!! this is a HACK to get the root app and root component references. !!!
         console.log(ngModuleRef);
-        this._app =  ngModuleRef['_ApplicationRef__9'];
+
+        // @question1 - this is a HACK to get the root app and root component references.
+        // This clearly is not the right way to obtain those references. What is the right way?
+        this._app = ngModuleRef['_ApplicationRef__9'];
         this._component = this._app['_rootComponents'][0]['_hostElement']['component'];
 
         this.updateChanges();
+
+        // @question2: Is this the prescribed way to refresh the app.
         this._app.tick();
       }, err => {
         console.log(err);
       }
     );
- }
+  }
 
- /**
-  * Get the NgModule reference that will act as the root of this web part.
-  */
- private _getModule(): any {
-   const component: any = this.RootComponentType.getComponent(this.context.instanceId);
+  /**
+   * Get the NgModule reference that will act as the root of this web part.
+   */
+  private _getModule(): any {
+    const component: any = this.RootComponentType.getComponent(this.context.instanceId);
 
-  return NgModule({
-    imports: [ BrowserModule ],
-    declarations: this.AppDeclarationTypes.concat(component),
-    bootstrap:    [ component ]
-  })(
-    class AppModule {}
-  );
-}
-
- protected updateChanges(): void {
-   throw new Error('Need to to override this method');
- }
+    // @question3: Is this a good way of bootstrapping the app and the root component
+    // of the app? The reason we are having to do this is because, we found, that
+    // only one root app is bootstrappable on a page. We are working around that by
+    // creating a new instance of the app for each web part. i.e. each web part is
+    // bootstrapping its own root app.
+    return NgModule({
+      imports: [BrowserModule],
+      declarations: this.AppDeclarationTypes.concat(component),
+      bootstrap: [component]
+    })(class Angular2WebPartRootApp { });
+  }
 }
