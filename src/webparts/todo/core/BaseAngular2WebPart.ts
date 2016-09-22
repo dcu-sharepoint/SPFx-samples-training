@@ -11,7 +11,7 @@ import {
   BaseClientSideWebPart
 } from '@microsoft/sp-client-preview';
 
-import { NgModule } from '@angular/core';
+import { NgModule, ApplicationRef, Inject, ReflectiveInjector, Injector } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
@@ -63,7 +63,7 @@ export default class BaseAngular2WebPart<TProperties>
    * On property change.
    */
   public onPropertyChange(propertyPath: string, newValue: any): void {
-    // Trigger app/root-component refresh
+    // Trigger app/root-component refresh - zone.js does not pick up chagnes to class properties
     // this._app.changeDetectorRef.detectChanges();
     this._app.tick();
   }
@@ -85,13 +85,7 @@ export default class BaseAngular2WebPart<TProperties>
     platformBrowserDynamic().bootstrapModule(this._getModule()).then(
       ngModuleRef => {
 
-        console.log(ngModuleRef);
-
-        // @question1 - this is a HACK to get the root app and root component references.
-        // This clearly is not the right way to obtain those references. What is the right way?
-        this._app = ngModuleRef['_ApplicationRef__9'];
         this._component = this._app['_rootComponents'][0]['_hostElement']['component'];
-
         this.updateChanges();
 
         // @question2: Is this the prescribed way to refresh the app.
@@ -107,16 +101,22 @@ export default class BaseAngular2WebPart<TProperties>
    */
   private _getModule(): any {
     const component: any = this.rootComponentType.getComponent(this.context.instanceId);
-
-    // @question3: Is this a good way of bootstrapping the app and the root component
-    // of the app? The reason we are having to do this is because, we found, that
-    // only one root app is bootstrappable on a page. We are working around that by
-    // creating a new instance of the app for each web part. i.e. each web part is
-    // bootstrapping its own root app.
-    return NgModule({
-      imports: [BrowserModule],
-      declarations: this.appDeclarationTypes.concat(component),
-      bootstrap: [component]
-    })(class Angular2WebPartRootApp { });
+    const declarations = this.appDeclarationTypes.concat(component);
+    const webPart = this;
+    const AppModule = (function () {
+      function AppModule(applicationRef) {
+        webPart._app = applicationRef;
+      }
+      const AppModule1 = Reflect.decorate([
+        NgModule({
+          imports: [BrowserModule],
+          declarations: declarations,
+          bootstrap: [component]
+        }),
+        Reflect.metadata('design:paramtypes', [ApplicationRef])
+      ], AppModule);
+      return AppModule1;
+    } ());
+    return AppModule;
   }
 }

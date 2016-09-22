@@ -1,5 +1,6 @@
-{
+{"enabled": false,
   "lintConfig": {
+    "enabled": false,
     "rules": {
       "comment-format": false,
       "curly": false,
