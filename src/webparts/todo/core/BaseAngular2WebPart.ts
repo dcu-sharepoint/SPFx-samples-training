@@ -103,17 +103,28 @@ export default class BaseAngular2WebPart<TProperties>
     const component: any = this.rootComponentType.getComponent(this.context.instanceId);
     const declarations = this.appDeclarationTypes.concat(component);
     const webPart = this;
+    /**
+    * Our goal is to define a single module class definition to be instantiated for each
+      webpart (like instances of a class). When an instance of the module class is bootstrapped Angular2
+      will create an annotation and attach it to the module class. However, when multiple instances of the
+      same module class are bootstrapped, only the first annotation associated with the module class will be parsed.
+      Resulting in any other module class instances on the page to be unfunctional.
+      To allow multiple modules of the same class on one page to function, we need to define the
+      class in a closure to create a new environment for each instance class, so that each annotation
+      object will be parsed.
+    */
     const AppModule = (function () {
       function AppModule(applicationRef) {
-        webPart._app = applicationRef;
+        webPart._app = applicationRef; // applicationRef gives us a reference to the Angular2 component's properties
       }
+      // We now attach required metadata for Angular2 that is allowable within a clousure
       const AppModule1 = Reflect.decorate([
         NgModule({
           imports: [BrowserModule],
           declarations: declarations,
           bootstrap: [component]
         }),
-        Reflect.metadata('design:paramtypes', [ApplicationRef])
+        Reflect.metadata('design:paramtypes', [ApplicationRef]) // This allow the Angular2's DI to inject the ApplicationRef
       ], AppModule);
       return AppModule1;
     } ());
