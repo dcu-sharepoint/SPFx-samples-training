@@ -29,7 +29,11 @@ export default class TodoWebPart extends BaseAngular2WebPart<ITodoWebPartProps> 
     return [ListComponent];
   }
 
+  /*
+  * Save's all component properties to the property bag of the WebPart.
+  */
   public onBeforeSerialize(): IHtmlProperties {
+    this.properties.description = this.rootComponent.description;
     this.properties.todos = this.rootComponent.todos;
     return undefined;
   }
@@ -37,7 +41,6 @@ export default class TodoWebPart extends BaseAngular2WebPart<ITodoWebPartProps> 
   public onPropertyChange(propertyPath: string, newValue: any): void {
     // Update value
     if (propertyPath === "description") {
-      console.log('prop change');
       this.rootComponent.description = newValue;
     }
 

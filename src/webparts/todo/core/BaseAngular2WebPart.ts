@@ -11,7 +11,7 @@ import {
   BaseClientSideWebPart
 } from '@microsoft/sp-client-preview';
 
-import { NgModule, ApplicationRef, Inject, ReflectiveInjector, Injector } from '@angular/core';
+import { NgModule, ApplicationRef, Inject, ReflectiveInjector, Injector, NgZone } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
@@ -25,6 +25,11 @@ export default class BaseAngular2WebPart<TProperties>
    * Reference to the root application.
    */
   private _app: any;
+
+  /**
+   * Reference to the zone of the angular2 application to put execution (and all async tasks) in the Angular controlled zone.
+   */
+  private _zone: any;
 
   /**
    * Reference to the root component.
@@ -63,9 +68,8 @@ export default class BaseAngular2WebPart<TProperties>
    * On property change.
    */
   public onPropertyChange(propertyPath: string, newValue: any): void {
-    // Trigger app/root-component refresh - zone.js does not pick up chagnes to class properties
-    // this._app.changeDetectorRef.detectChanges();
-    this._app.tick();
+    // Trigger app/root-component refresh
+    this._zone.run(() => {console.log('Outside Done!') });
   }
 
   /**
@@ -88,8 +92,7 @@ export default class BaseAngular2WebPart<TProperties>
         this._component = this._app['_rootComponents'][0]['_hostElement']['component'];
         this.updateChanges();
 
-        // @question2: Is this the prescribed way to refresh the app.
-        this._app.tick();
+        this._zone.run(() => {console.log('Outside Done!') });
       }, err => {
         console.log(err);
       }
@@ -108,14 +111,15 @@ export default class BaseAngular2WebPart<TProperties>
       webpart (like instances of a class). When an instance of the module class is bootstrapped Angular2
       will create an annotation and attach it to the module class. However, when multiple instances of the
       same module class are bootstrapped, only the first annotation associated with the module class will be parsed.
-      Resulting in any other module class instances on the page to be unfunctional.
-      To allow multiple modules of the same class on one page to function, we need to define the
+      This results in any other module class instances on the page to not function.
+      To allow multiple modules of the same class definitoin on one page to work, we need to define the
       class in a closure to create a new environment for each instance class, so that each annotation
       object will be parsed.
     */
     const AppModule = (function () {
-      function AppModule(applicationRef) {
+      function AppModule(applicationRef, ngZone) {
         webPart._app = applicationRef; // applicationRef gives us a reference to the Angular2 component's properties
+        webPart._zone = ngZone;
       }
       // We now attach required metadata for Angular2 that is allowable within a clousure
       const AppModule1 = Reflect.decorate([
@@ -124,7 +128,8 @@ export default class BaseAngular2WebPart<TProperties>
           declarations: declarations,
           bootstrap: [component]
         }),
-        Reflect.metadata('design:paramtypes', [ApplicationRef]) // This allow the Angular2's DI to inject the ApplicationRef
+
+        Reflect.metadata('design:paramtypes', [ApplicationRef, NgZone]) // This allows Angular2's DI to inject dependencies
       ], AppModule);
       return AppModule1;
     } ());
