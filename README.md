@@ -10,6 +10,10 @@ Sample To Do Web Part built with Angular2. This sample illustrates how you can u
 * [SharePoint Framework Developer Preview](http://dev.office.com/sharepoint/docs/spfx/sharepoint-framework-overview)
 * [Office 365 developer tenant](http://dev.office.com/sharepoint/docs/spfx/set-up-your-developer-tenant)
 
+## Prerequisites
+
+> Some familiarity of Angular2 architecture.
+
 ## Solution
 
 Solution|Author(s)
@@ -31,7 +35,7 @@ Version|Date|Comments
 ## Minimal Path to Awesome
 
 - Clone this repository
-- in the command line run:
+- In the command line run:
   - `npm i`
   - `npm i -g gulp`
   - `tsd install`
@@ -46,11 +50,11 @@ This allows you to design your web part very closely to how you would design a s
 
 ### Protoype anomalies
 Angular2 uses decorators to attach metadata to classes so that Angular will know how to process the class.
-When bootstrapping the same Angular2 module more than once, the system will add more metadata objects to the same class.
+When bootstrapping the same Angular2 module class more than once, the system will add more metadata objects to the same class.
 However, when Angular2 encounters this class it will only use the first metadata object to process the class.
-This results, in only the first processed Angular2 module to work as expected on the page.
-To work around this, we define the Angular2 module using a vanilla javacript class definition wrapped in a closure.
-This causes each Angular2 module to be created at run time and appear as a unique classes, causing Angular2 to process the class with it's own metadata object.
+This results, in only the first processed Angular2 module class to work as expected on the page.
+To work around this, we define the Angular2 module class using a vanilla javacript class definition wrapped in a closure.
+This causes each Angular2 module to be created at run time and each appear as a unique class, now Angular2 will process each class with it's own metadata unique object.
 You can view this class defition in `BaseAnagular2WebPart.ts`.
 
 ### Adding functionality
