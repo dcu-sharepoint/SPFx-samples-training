@@ -1,26 +1,56 @@
-## ang-2-webparts
+#  Angular2 Web Part Prototype
 
-This is where you include your web part docs.
+## Summary
+Sample To Do Web Part built with Angular2. This sample illustrates how you can use Angular2 with the SharePoint Framework.
 
-### Building the code
+![Sample of the search web part](./assets/preview.png)
 
-```bash
-git clone the repo
-npm i
-npm i -g gulp
-gulp
-```
+## Applies to
 
-This package produces the following:
+* [SharePoint Framework Developer Preview](http://dev.office.com/sharepoint/docs/spfx/sharepoint-framework-overview)
+* [Office 365 developer tenant](http://dev.office.com/sharepoint/docs/spfx/set-up-your-developer-tenant)
 
-* lib/* commonjs components - this allows this package to be reused from other packages.
-* dist/* - a single bundle containing the components used for uploading to a cdn pointing a registered Sharepoint webpart library to.
-* example/* a test page that hosts all components in this package.
+## Solution
 
-### Build options
+Solution|Author(s)
+angular2-prototype | Manish Garg, Daniel Gaeta
 
-gulp nuke - TODO
-gulp test - TODO
-gulp watch - TODO
-gulp build - TODO
-gulp deploy - TODO
+## Version history
+
+Version|Date|Comments
+0.2|October 7, 2016|Resolved workarounds to access NgModule and NgZone
+0.1|August 14, 2016|Initial release
+
+## Disclaimer
+**THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.**
+
+---
+
+## Minimal Path to Awesome
+
+- Clone this repository
+- in the command line run:
+  - `npm i`
+  - `npm i -g gulp`
+  - `tsd install`
+  - `gulp serve`
+- Open the workbench
+- Test out the web part
+
+## Features
+The todo web part is a sample client-side web part built on the SharePoint Framework. The web part makes use of the Angular2 framework pattern.
+The todo web part has a built in `BaseAnagular2WebPart` class to abstract away the React and Flux pattern of the SharePoint Framework.
+This allows you to design your web part very closely to how you would design a standalone Angular2 project.
+
+### Adding functionality
+To add functionality to this web part prototype the main file to edit is `TodoWebPart.ts`, here there are comments to help you alter the prototype.
+
+### Web part concepts
+The web part displays a title, button to add to dos and a button to print the to do items to the console.
+This web part illustrates the following concepts on top of the SharePoint Framework:
+
+- changing a property (the title) of a web part using the property pane
+- manipulating properties in the Angular2 component class
+- creating multiple Angular2 applications on the same page of the same NgModule class
+
+<img src="https://telemetry.sharepointpnp.com/sp-dev-fx-webparts/samples/readme-template" />

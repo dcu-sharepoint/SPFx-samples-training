@@ -23,7 +23,7 @@ export default class TodoWebPart extends BaseAngular2WebPart<ITodoWebPartProps> 
   }
 
   /*
-  * Include all subcomponent classes in this array.
+  * Include all subcomponent view classes (components, directives, and pipes) in this array.
   */
   protected get appDeclarationTypes(): any {
     return [ListComponent];
@@ -39,7 +39,7 @@ export default class TodoWebPart extends BaseAngular2WebPart<ITodoWebPartProps> 
   }
 
   public onPropertyChange(propertyPath: string, newValue: any): void {
-    // Update value
+    // Update values changed from the property pane here
     if (propertyPath === "description") {
       this.rootComponent.description = newValue;
     }
@@ -48,6 +48,7 @@ export default class TodoWebPart extends BaseAngular2WebPart<ITodoWebPartProps> 
   }
 
   protected updateChanges(): void {
+    // Saves all properties from the WebPart property bag to the Angular component instance
     this.rootComponent.description = this.properties.description;
     this.rootComponent.todos = this.properties.todos;
   }
