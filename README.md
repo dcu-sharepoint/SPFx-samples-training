@@ -44,6 +44,15 @@ The todo web part is a sample client-side web part built on the SharePoint Frame
 The todo web part has a built in `BaseAnagular2WebPart` class to abstract away the React and Flux pattern of the SharePoint Framework.
 This allows you to design your web part very closely to how you would design a standalone Angular2 project.
 
+### Protoype anomalies
+Angular2 uses decorators to attach metadata to classes so that Angular will know how to process the class.
+When bootstrapping the same Angular2 module more than once, the system will add more metadata objects to the same class.
+However, when Angular2 encounters this class it will only use the first metadata object to process the class.
+This results, in only the first processed Angular2 module to work as expected on the page.
+To work around this, we define the Angular2 module using a vanilla javacript class definition wrapped in a closure.
+This causes each Angular2 module to be created at run time and appear as a unique classes, causing Angular2 to process the class with it's own metadata object.
+You can view this class defition in `BaseAnagular2WebPart.ts`.
+
 ### Adding functionality
 To add functionality to this web part prototype the main file to edit is `TodoWebPart.ts`, here there are comments to help you alter the prototype.
 
