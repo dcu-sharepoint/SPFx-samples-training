@@ -13,11 +13,13 @@ Sample To Do Web Part built with Angular2. This sample illustrates how you can u
 ## Solution
 
 Solution|Author(s)
+--------|---------
 angular2-prototype | Manish Garg, Daniel Gaeta
 
 ## Version history
 
 Version|Date|Comments
+-------|----|--------
 0.2|October 7, 2016|Resolved workarounds to access NgModule and NgZone
 0.1|August 14, 2016|Initial release
 
