@@ -52,7 +52,7 @@ The web part displays a title, button to add to dos and a button to print the to
 This web part illustrates the following concepts on top of the SharePoint Framework:
 
 - changing a property (the title) of a web part using the property pane
-- manipulating properties in the Angular2 component class
+- manipulating properties in the Angular2 component class and saving to SharePoints property bag
 - creating multiple Angular2 applications on the same page of the same NgModule class
 
 <img src="https://telemetry.sharepointpnp.com/sp-dev-fx-webparts/samples/readme-template" />
