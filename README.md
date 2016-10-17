@@ -1,5 +1,6 @@
 #  Angular2 Web Part Prototype
 
+## Note to developers
 > Note: This web part sample is in prototype phase.
 It is provided as guidance in building Angular2 web parts in the SharePoint framework environment.
 However, in using this sample we can not guarantee that unexpected behavior will not occur.
