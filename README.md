@@ -4,7 +4,7 @@
 > This web part sample is in prototype phase.
 It is provided as guidance in building Angular2 web parts in the SharePoint framework environment.
 However, in using this sample we can not guarantee that unexpected behavior will not occur.
-This sample is a 'work in progress' and it will be updated as advances in stability are made.
+This sample is a work in progress and it will be updated as advances in stability are made.
 
 ## Summary
 Sample To Do Web Part built with Angular2. This sample illustrates how you can use Angular2 with the SharePoint Framework.
