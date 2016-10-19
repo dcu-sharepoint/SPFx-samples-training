@@ -50,28 +50,28 @@ Version|Date|Comments
 - Test out the web part
 
 ## Features
-The todo web part is a sample client-side web part built on the SharePoint Framework. The web part makes use of the Angular2 framework pattern.
-The todo web part has a built in `BaseAnagular2WebPart` class to abstract away the React and Flux pattern of the SharePoint Framework.
-This allows you to design your web part very closely to how you would design a standalone Angular2 project.
+This is a sample client-side web part built on the SharePoint Framework using Angular2 for building the UI component of the web part.
+The SharePoint Framework is designed to allow developers to build web parts using the web framework of their choice.
+In this prototype we make use of the Angular2 framework. The BaseAngular2WebPart class tries to abstract some of the Angular2 integration.
+This way the developer can focus on their web part code and not worry about Angular2 integration.
 
 ### Protoype anomalies
-Angular2 uses decorators to attach metadata to classes so that Angular will know how to process the class.
-When bootstrapping the same Angular2 module class more than once, the system will add more metadata objects to the same class.
-However, when Angular2 encounters this class it will only use the first metadata object to process the class.
-This results, in only the first processed Angular2 module class to work as expected on the page.
-To work around this, we define the Angular2 module class using a vanilla javacript class definition wrapped in a closure.
-This causes each Angular2 module to be created at run time and each appear as a unique class, now Angular2 will process each class with it's own metadata unique object.
-You can view this class defition in `BaseAnagular2WebPart.ts`.
+Please note, this is an early prototype and we are still trying to learn the best practices of the Angular2 framework.
+Angular2 uses TypeScript decorators to annotate classes as Components and Modules.
+And also recommends that there be only one NgModule per application.
+In this prototype we try to use the decorators dynamically in code.
+And each web part instantiates a new NgModule at run time.
+Though this is not a best practice, it helps build web parts successfully.
+We are trying to find better solutions to this problem. Specially, how to avoid creating a separate NgModule for each web part.
 
 ### Adding functionality
-To add functionality to this web part prototype the main file to edit is `TodoWebPart.ts`, here there are comments to help you alter the prototype.
+To add functionality to this web part prototype the main file to edit is TodoWebPart.ts, here there are comments to help you alter the prototype.
 
 ### Web part concepts
 The web part displays a title, button to add to dos and a button to print the to do items to the console.
 This web part illustrates the following concepts on top of the SharePoint Framework:
 
-- changing a property (the title) of a web part using the property pane
-- manipulating properties in the Angular2 component class and saving to SharePoint's property bag
-- creating multiple Angular2 applications on the same page of the same NgModule class
+- Changing a property (the title) of a web part using the PropertyPane
+- Manipulating properties in the Angular2 component class and saving to web part’s property bag
 
 <img src="https://telemetry.sharepointpnp.com/sp-dev-fx-webparts/samples/readme-template" />
