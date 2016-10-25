@@ -89,6 +89,10 @@ export default class BaseAngular2WebPart<TProperties>
     platformBrowserDynamic().bootstrapModule(this._getModule()).then(
       ngModuleRef => {
 
+        /**
+         * @todo This is a prototype method of accessing the root component.
+         * Update when a stable access method is found.
+         */
         this._component = this._app['_rootComponents'][0]['_hostElement']['component'];
         this.updateChanges();
 
